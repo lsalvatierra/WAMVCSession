@@ -34,7 +34,7 @@
                 <%
                     if (request.getAttribute("respuesta") != null) {
                 %>
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-info" role="alert">
                     <%=request.getAttribute("respuesta").toString() %>
                 </div>
                 <%}%>

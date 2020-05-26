@@ -19,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author luis_
  */
-@WebServlet(name = "AutenticacionController", urlPatterns = {"/AutenticacionController"})
-public class AutenticacionController extends HttpServlet {
+@WebServlet(name = "CerrarSesionController", urlPatterns = {"/CerrarSesionController"})
+public class CerrarSesionController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +39,10 @@ public class AutenticacionController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AutenticacionController</title>");            
+            out.println("<title>Servlet CerrarSesionController</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AutenticacionController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CerrarSesionController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,7 +60,12 @@ public class AutenticacionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        HttpSession sesion = request.getSession();
+        sesion.invalidate();
+        request.setAttribute("mostrarmsgval", "0");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -74,20 +79,7 @@ public class AutenticacionController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        HttpSession sesion = request.getSession();
-        String usuario = request.getParameter("txtusuario");
-        String password = request.getParameter("txtpassword");
-        String vista = "/login.jsp";
-        if(usuario.equals("lsalvatierra")  && password.equals("123")){
-            vista = "/home.jsp";
-            sesion.setAttribute("usuario", usuario);
-        }
-        request.setAttribute("mostrarmsgval", "1");
-        //hacemos la instancia a RequestDispatcher para invocar a la vista a utilizar
-        RequestDispatcher transferir = request.getRequestDispatcher(vista);
-        //ejecutamos la transferencia
-        transferir.forward(request, response);
+        processRequest(request, response);
     }
 
     /**

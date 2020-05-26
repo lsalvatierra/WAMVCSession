@@ -7,21 +7,20 @@ package idat.edu.pe.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author luis_
  */
-@WebServlet(name = "TipoCambioController", urlPatterns = {"/TipoCambioController"})
-public class TipoCambioController extends HttpServlet {
+@WebServlet(name = "CuentaCookieController", urlPatterns = {"/CuentaCookieController"})
+public class CuentaCookieController extends HttpServlet {
 
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -37,7 +36,25 @@ public class TipoCambioController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        
+        String scuenta = null; 
+        //obtener el valor del cookie
+        Cookie[] cookies = request.getCookies();        
+        if(cookies != null){
+            for(int i = 0; i < cookies.length; i++){
+                if(cookies[i].getName().equals("cuenta.ck")){
+                    scuenta = cookies[i].getValue();
+                }
+            }
+        }        
+        Integer contador = 1;
+        if(scuenta != null){
+            contador = Integer.parseInt(scuenta)+1;
+        }
+        Cookie coockieclient = new Cookie("cuenta.ck", contador.toString());
+        response.addCookie(coockieclient);
+        request.setAttribute("contadorvisitas", contador.toString());
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/cookie.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -51,27 +68,6 @@ public class TipoCambioController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-               
-        String moneda = request.getParameter("cbomoneda");
-        Double monto = Double.parseDouble(request.getParameter("txtmonto"));
-        Double tipocambio;
-        String cambio;
-        if(moneda.equals("S")){
-            tipocambio = monto * 3.45;
-            cambio ="Soles";
-        }else{
-            tipocambio = monto / 3.45;
-            cambio ="Dólares";
-        }
-        DecimalFormat formato = new DecimalFormat("##.00");
-        String resultado = "La conversión del monto a "+cambio+" es : "+formato.format(tipocambio);
-        request.setAttribute("respuesta", resultado);
-        //hacemos la instancia a RequestDispatcher para invocar a la vista a utilizar
-        RequestDispatcher transferir = request.getRequestDispatcher("/tipocambio.jsp");
-        //ejecutamos la transferencia
-        transferir.forward(request, response);        
-        
     }
 
     /**
