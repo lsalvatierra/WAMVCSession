@@ -51,8 +51,7 @@ public class TipoCambioController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-               
+        //processRequest(request, response);               
         String moneda = request.getParameter("cbomoneda");
         Double monto = Double.parseDouble(request.getParameter("txtmonto"));
         Double tipocambio;

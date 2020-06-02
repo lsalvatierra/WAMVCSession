@@ -31,7 +31,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="CuentaCookieController">Cookie</a>
-                            <a class="dropdown-item" href="tipocambio.jsp">Ejercicio 2</a>
+                            <a class="dropdown-item" href="CalcularVentaController">Ejercicio 2</a>
                         </div>
                     </li>
                 </ul>
